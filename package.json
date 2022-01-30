@@ -1,0 +1,23 @@
+{
+  "name": "express-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a1000rhan/express-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a1000rhan/express-node/issues"
+  },
+  "homepage": "https://github.com/a1000rhan/express-node#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
