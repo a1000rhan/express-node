@@ -19,7 +19,8 @@
   "homepage": "https://github.com/a1000rhan/express-node#readme",
   "dependencies": {
     "express": "^4.17.2",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "slugify": "^1.6.5"
   },
   "description": ""
 }

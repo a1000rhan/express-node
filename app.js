@@ -1,11 +1,14 @@
 const express = require("express");
-const products = require("./products");
+const productRoute = require("./Products/routes");
+
 const app = express();
+app.use(express.json()); //middleware
 
-app.listen(8001, () => {
+//server use
+
+//return all products
+
+app.use("/products", productRoute);
+app.listen(8003, () => {
   console.log("The application is running on localhost:8000");
-});
-
-app.get("/products", (req, res) => {
-  res.json(products);
 });
