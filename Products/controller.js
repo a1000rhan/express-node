@@ -1,7 +1,15 @@
-const products = require("../products");
+const Product = require("../db/models/Product");
 
-exports.getProducts = (req, res) => {
-  res.json(products);
+let products = require("../products");
+
+exports.getProducts = async (req, res) => {
+  try {
+    const productArray = await Product.find();
+    res.json(productArray);
+    res.status(200).end();
+  } catch (e) {
+    res.status(500).json({ message: e.massage });
+  }
 };
 
 exports.getDetail = (req, res) => {
@@ -12,7 +20,7 @@ exports.getDetail = (req, res) => {
     res.json(products);
     res.status(200).end();
   } catch (e) {
-    next(e);
+    res.status(500).json({ message: e.massage });
   }
 };
 
@@ -26,21 +34,20 @@ exports.createProduct = (req, res) => {
     res.json(newProduct);
     res.status(201).end();
   } catch (e) {
-    next(e);
+    res.status(500).json({ message: e.message });
   }
 };
 exports.deleteProduct = (req, res) => {
   try {
     const { id } = req.params;
-    const foundProduct = products.some((prod) => prod.id === +id);
+    const foundProduct = products.find((prod) => prod.id === +id);
     if (foundProduct) {
-      newProduct = products.filter((prod) => prod.id !== +id);
-      products = newProduct;
+      products = products.filter((prod) => prod.id !== +id);
       res.status(204).end();
     } else {
       res.status(404).end();
     }
   } catch (e) {
-    next(e);
+    res.status(500).json({ massage: e.massage });
   }
 };
