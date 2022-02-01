@@ -1,27 +1,20 @@
 const Product = require("../db/models/Product");
 
-let products = require("../products");
-
-exports.getProducts = async (req, res) => {
+exports.getProducts = async (req, res, next) => {
   try {
     //this mothed take only what inside the ""
     const productArray = await Product.find({}).select(
       "name image price color"
     );
-    //this method exlude only what inside the{}
-    // const productArray = await Product.find(
-    //   {},
-    //   { color: 0, quantity: 0, slug: 0, slug_history: 0, __v: 0 }
-    // );
 
     res.json(productArray);
     res.status(200).end();
   } catch (e) {
-    res.status(500).json({ message: e.massage });
+    next(e);
   }
 };
 
-exports.getDetail = (req, res) => {
+exports.getDetail = (req, res, next) => {
   try {
     const { id } = req.params; //must ne req
     const oneProduct = Product.findById({ _id: id });
@@ -30,27 +23,22 @@ exports.getDetail = (req, res) => {
 
     res.status(200).end();
   } catch (e) {
-    res.status(500).json({ message: e.massage });
+    next(e);
   }
 };
 
-exports.createProduct = async (req, res) => {
+exports.createProduct = async (req, res, next) => {
   console.log(req.body);
   try {
     const newProduct = await Product.create(req.body);
 
-    /* req.body.id= products.length+1;
-     const id = products.length + 1;
-    const newProduct = { id: id, ...req.body };
-    products.push(newProduct);*/
-
     res.json(newProduct);
     res.status(201).end();
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    next(e);
   }
 };
-exports.deleteProduct = async (req, res) => {
+exports.deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
     const foundProduct = await Product.findByIdAndDelete({ _id: id });
@@ -58,14 +46,14 @@ exports.deleteProduct = async (req, res) => {
       // products = products.filter((prod) => prod.id !== +id);
       res.status(204).end().json({ message: "deleted" });
     } else {
-      res.status(404).end().json({ message: "no found" });
+      next({ status: 404, message: "cannot deleted " });
     }
   } catch (e) {
-    res.status(500).json({ massage: e.massage });
+    next(e);
   }
 };
 
-exports.updateProduct = async (req, res) => {
+exports.updateProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
     //new:true to to show the update after change immiditly
@@ -76,11 +64,10 @@ exports.updateProduct = async (req, res) => {
 
     if (product) {
       res.json(product);
-      //res.status(200).end();// by defualt 200
     } else {
-      res.status(404).json({ message: "not found" });
+      next({ status: 404, message: `cannot update${message}` });
     }
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    next(e);
   }
 };
