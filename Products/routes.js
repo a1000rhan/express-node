@@ -1,4 +1,3 @@
-const { request } = require("express");
 const express = require("express");
 const routers = express.Router();
 const {
@@ -7,14 +6,24 @@ const {
   createProduct,
   deleteProduct,
   updateProduct,
+  fetchProduct,
 } = require("./controller");
 
-routers.get("/", getProducts);
+routers.param("productId", async (req, res, next, id) => {
+  const product = await fetchProduct(id, next);
+  if (product) {
+    req.product = product;
+    next();
+  } else {
+    next({ status: 404, message: "product not found" });
+  }
+});
 
+routers.get("/", getProducts);
 //return one product based on id #
-routers.get("/:id", getDetail);
+routers.get("/:productId", getDetail);
 
 routers.post("/", createProduct);
-routers.delete("/:id", deleteProduct);
-routers.put("/:id", updateProduct);
+routers.delete("/:productId", deleteProduct);
+routers.put("/:productId", updateProduct);
 module.exports = routers;
