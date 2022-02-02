@@ -1,8 +1,8 @@
-exports.logger = (req, res) => {
+exports.routerNotFound = (req, res) => {
   res.status(404).json({ message: "route is not found" });
 };
 
-exports.path = (req, res, next) => {
+exports.logger = (req, res, next) => {
   console.log(`${req.method} ${req.protocol}://${req.get("host")}${req.path}`);
 
   next();

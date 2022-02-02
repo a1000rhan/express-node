@@ -1,11 +1,12 @@
 const express = require("express");
+
+const upload = require("../middleware/multer");
 const routers = express.Router();
 const {
   createListShop,
   getShop,
   createProduct,
   getDetail,
-
   deleteShop,
   updateShop,
   fetchShop,
@@ -23,7 +24,7 @@ routers.param("shopId", async (req, res, next, id) => {
 
 routers.get("/", getShop);
 routers.post("/", createListShop);
-routers.post("/:shopId/products", createProduct);
+routers.post("/:shopId/products", upload.single("image"), createProduct);
 routers.get("/:shopId", getDetail);
 routers.delete("/:shopId", deleteShop);
 routers.put("/:shopId", updateShop);

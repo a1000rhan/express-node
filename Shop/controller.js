@@ -66,6 +66,10 @@ exports.updateShop = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/${req.file.path}`;
+    }
+
     const { shopId } = req.params;
     req.body.shop = shopId;
     const newProduct = await Product.create(req.body);

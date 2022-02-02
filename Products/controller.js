@@ -46,7 +46,10 @@ exports.deleteProduct = async (req, res, next) => {
 
 exports.updateProduct = async (req, res, next) => {
   try {
-    //new:true to to show the update after change immiditly
+    if (req.file) {
+      req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
+    }
+    console.log(req.body); //new:true to to show the update after change immiditly
     const product = await Product.findByIdAndUpdate(
       { _id: req.product.id },
       req.body,
