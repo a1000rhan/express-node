@@ -1,5 +1,6 @@
 const express = require("express");
 const productRoute = require("./Products/routes");
+const shopRoute = require("./Shop/routes");
 const connectDB = require("./db/database");
 
 const { logger, path, hundleError } = require("./middleware/middleware");
@@ -12,6 +13,7 @@ app.use(path);
 
 //return all products
 app.use("/products", productRoute);
+app.use("/shops", shopRoute);
 
 //middleware
 app.use(logger);

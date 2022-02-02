@@ -32,16 +32,6 @@ exports.getDetail = async (req, res, next) => {
   }
 };
 
-exports.createProduct = async (req, res, next) => {
-  try {
-    const newProduct = await Product.create(req.body);
-
-    res.json(newProduct);
-    res.status(201).end();
-  } catch (err) {
-    next(err);
-  }
-};
 exports.deleteProduct = async (req, res, next) => {
   try {
     await Product.findByIdAndDelete({

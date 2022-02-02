@@ -3,20 +3,8 @@ exports.logger = (req, res) => {
 };
 
 exports.path = (req, res, next) => {
-  //console.log(`${req.method} ${req.originalUrl}`);
-
-  // console.log(
-  //   `${req.method} ${req.protocol}://${req.hostname}:${PORT}${req.originalUrl}`
-  // );
-
   console.log(`${req.method} ${req.protocol}://${req.get("host")}${req.path}`);
 
-  // if (req.method === "GET") {
-  //   console.log("fatched");
-  // }
-  // if (req.method === "POST") {
-  //   console.log("POST");
-  // }
   next();
 };
 
