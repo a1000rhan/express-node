@@ -1,6 +1,7 @@
 const express = require("express");
 const productRoute = require("./Products/routes");
 const shopRoute = require("./Shop/routes");
+const userRoute = require("./users/routes");
 const connectDB = require("./db/database");
 const cors = require("cors");
 const path = require("path");
@@ -19,6 +20,7 @@ app.use(logger);
 app.use(cors());
 
 //return all products
+app.use("/", userRoute);
 app.use("/products", productRoute);
 app.use("/shops", shopRoute);
 
