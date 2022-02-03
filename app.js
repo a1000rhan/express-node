@@ -3,8 +3,11 @@ const productRoute = require("./Products/routes");
 const shopRoute = require("./Shop/routes");
 const userRoute = require("./users/routes");
 const connectDB = require("./db/database");
+const passport = require("passport");
 const cors = require("cors");
 const path = require("path");
+
+const { localStrategy } = require("./middleware/passport");
 
 const {
   routerNotFound,
@@ -18,6 +21,10 @@ const app = express();
 app.use(express.json());
 app.use(logger);
 app.use(cors());
+
+//initializing passport for to check sign In
+app.use(passport.initialize());
+passport.use(localStrategy);
 
 //return all products
 app.use("/", userRoute);
