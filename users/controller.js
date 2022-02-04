@@ -25,7 +25,7 @@ exports.signUp = async (req, res, next) => {
     //STEP THREE:the data that I want to send to the user in the inside Token and create it
     const token = generateToken(user);
     //STEP FOUR: Show the Token
-    res.status(201).json({ token: token });
+    res.status(201).json({ token });
   } catch (err) {
     next(err);
   }

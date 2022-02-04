@@ -3,8 +3,8 @@ const Product = require("../db/models/Product");
 
 exports.fetchShop = async (shopId, next) => {
   try {
-    const prodcut = await Shop.findById(shopId);
-    return prodcut;
+    const shop = await Shop.findById(shopId);
+    return shop;
   } catch (err) {
     next(err);
   }
@@ -21,6 +21,7 @@ exports.getShop = async (req, res, next) => {
 
 exports.createListShop = async (req, res, next) => {
   try {
+    req.body.owner = req.user._id;
     const newShop = await Shop.create(req.body);
     return res.json(newShop);
   } catch (err) {
@@ -66,19 +67,30 @@ exports.updateShop = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/${req.file.path}`;
+    if (!req.user._id.equals(req.shop.owner)) {
+      console.log(
+        "🚀 ~ file: controller.js ~ line 71 ~ exports.createProduct= ~ req.shop.owner",
+        req.shop.owner
+      );
+      next({
+        status: 401,
+        message: "Your not the Owner and you cannot create new Product",
+      });
+    } else {
+      if (req.file) {
+        req.body.image = `http://${req.get("host")}/${req.file.path}`;
+      }
+
+      const { shopId } = req.params;
+      req.body.shop = shopId;
+      const newProduct = await Product.create(req.body);
+      await Shop.findByIdAndUpdate(
+        { _id: shopId },
+        { $push: { products: newProduct._id } }
+      );
+
+      return res.status(201).json(newProduct);
     }
-
-    const { shopId } = req.params;
-    req.body.shop = shopId;
-    const newProduct = await Product.create(req.body);
-    await Shop.findByIdAndUpdate(
-      { _id: shopId },
-      { $push: { products: newProduct._id } }
-    );
-
-    return res.status(201).json(newProduct);
   } catch (err) {
     next(err);
   }

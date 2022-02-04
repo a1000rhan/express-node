@@ -7,7 +7,7 @@ const passport = require("passport");
 const cors = require("cors");
 const path = require("path");
 
-const { localStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
 const {
   routerNotFound,
@@ -25,6 +25,7 @@ app.use(cors());
 //initializing passport for to check sign In
 app.use(passport.initialize());
 passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 //return all products
 app.use("/", userRoute);
