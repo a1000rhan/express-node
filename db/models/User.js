@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
   },
   firstName: { type: String },
   lastName: { type: String },
+  orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
 });
 
 module.exports = mongoose.model("User", UserSchema);
