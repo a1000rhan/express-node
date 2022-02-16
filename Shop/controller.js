@@ -12,10 +12,7 @@ exports.fetchShop = async (shopId, next) => {
 
 exports.getShop = async (req, res, next) => {
   try {
-    const shopArray = await Shop.find().populate(
-      "products",
-      "name image price"
-    );
+    const shopArray = await Shop.find().populate("products");
     res.json(shopArray);
   } catch (err) {
     next(err);

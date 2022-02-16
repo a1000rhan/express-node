@@ -12,10 +12,7 @@ exports.fetchProduct = async (productId, next) => {
 exports.getProducts = async (req, res, next) => {
   try {
     //this mothed take only what inside the ""
-    const productArray = await Product.find({}).select(
-      "name image price color"
-    );
-
+    const productArray = await Product.find();
     res.json(productArray);
   } catch (err) {
     next(err);
