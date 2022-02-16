@@ -2,6 +2,7 @@ const express = require("express");
 const productRoute = require("./Products/routes");
 const shopRoute = require("./Shop/routes");
 const userRoute = require("./users/routes");
+const orderRoute = require("./Order/routes");
 const connectDB = require("./db/database");
 const passport = require("passport");
 const cors = require("cors");
@@ -31,6 +32,7 @@ passport.use(jwtStrategy);
 app.use("/", userRoute);
 app.use("/products", productRoute);
 app.use("/shops", shopRoute);
+app.use("/", orderRoute);
 
 //middleware
 app.use("/media", express.static(path.join(__dirname, "media")));

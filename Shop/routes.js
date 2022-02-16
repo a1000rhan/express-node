@@ -18,10 +18,7 @@ routers.param("shopId", async (req, res, next, id) => {
   const shop = await fetchShop(id, next);
   if (shop) {
     req.shop = shop;
-    console.log(
-      "🚀 ~ file: routes.js ~ line 21 ~ routers.param ~ req.shop",
-      req.shop.owner
-    );
+
     next();
   } else {
     next({ status: 404, message: "product not found" });
@@ -29,9 +26,11 @@ routers.param("shopId", async (req, res, next, id) => {
 });
 
 routers.get("/", getShop);
+
 routers.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
   createListShop
 );
 routers.post(
@@ -41,7 +40,15 @@ routers.post(
   createProduct
 );
 routers.get("/:shopId", getDetail);
-routers.delete("/:shopId", deleteShop);
-routers.put("/:shopId", updateShop);
+routers.delete(
+  "/:shopId",
+  passport.authenticate("jwt", { session: false }),
+  deleteShop
+);
+routers.put(
+  "/:shopId",
+  passport.authenticate("jwt", { session: false }),
+  updateShop
+);
 
 module.exports = routers;
