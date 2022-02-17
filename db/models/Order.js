@@ -2,8 +2,27 @@ const mongoose = require("mongoose");
 // const mongooseSlugPlugin = require("mongoose-slug-plugin");
 
 const OrderSchema = new mongoose.Schema({
-  products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  order: [
+    {
+      product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      quantity: { type: Number },
+    },
+  ],
 });
 
 module.exports = mongoose.model("Order", OrderSchema);
+
+/*
+items: [
+  {
+   products: id1,
+   quantity: number of 👆🏼 product
+  },
+  {
+    products: id2,
+    quantity: number of 👆🏼 product
+
+  },
+] 
+*/
